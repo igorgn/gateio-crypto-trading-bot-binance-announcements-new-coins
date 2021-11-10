@@ -3,6 +3,7 @@ from store_order import *
 from logger import logger
 from load_config import *
 from new_listings_scraper import *
+from send_telegram import *
 import globals
 from collections import defaultdict
 from datetime import datetime, time
@@ -77,6 +78,8 @@ def main():
 
     t2 = threading.Thread(target=get_all_currencies)
     t2.start()
+    
+    send_telegram("new-coin-bot is online")
 
     try:
         while True:
@@ -226,6 +229,7 @@ def main():
                                     }
                                 
                                 logger.info('Sold coins:\r\n' + str(sold_coins[coin]))
+                                send_telegram('Sold coins:\r\n' + str(sold_coins[coin]))
 
                             
                             # add to session orders
@@ -340,6 +344,7 @@ def main():
                                     '_fee': fee
                                 }
                                 logger.info('PLACING TEST ORDER')
+                                send_telegram('PLACING TEST ORDER')
                                 logger.info(order[announcement_coin])
                             # place a live order if False
                             else:
@@ -354,7 +359,8 @@ def main():
                                 order[announcement_coin]['_ttp'] = ttp
                                 order[announcement_coin]['_tsl'] = tsl
                                 logger.debug('Finished buy place_order')
-
+                                send_telegram('Finished buy place_order')
+                                
                         except Exception as e:
                             logger.error(e)
 
@@ -400,6 +406,7 @@ def main():
                                 order.clear()  # reset for next iteration
                     else:
                         logger.warning(f'{announcement_coin=} is not supported on gate io')
+                        send_telegram(f'{announcement_coin=} is not supported on gate io')
                         if os.path.isfile('new_listing.json'):
                             os.remove("new_listing.json")
                         old_coins.append(announcement_coin)
