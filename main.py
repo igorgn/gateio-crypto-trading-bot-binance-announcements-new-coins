@@ -230,8 +230,8 @@ def main():
                                     'iceberg': '0',
                                     }
                                 
-                                logger.info('Sold coins:\r\n' + str(sold_coins[coin]))
-                                send_telegram('Sold coins:\r\n' + str(sold_coins[coin]))
+                            logger.info('Sold coins:\r\n' + str(sold_coins[coin]))
+                            send_telegram('Sold coins:\r\n' + str(sold_coins[coin]))
 
                             
                             # add to session orders
