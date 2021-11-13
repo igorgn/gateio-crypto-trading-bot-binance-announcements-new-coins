@@ -107,11 +107,11 @@ def search_and_update():
     Pretty much our main func
     """
     while not globals.stop_threads:
-        sleep_time = 1
-        for x in range(sleep_time):
-            time.sleep(1)
-            if globals.stop_threads:
-                break
+        # sleep_time = 1
+        # for x in range(sleep_time):
+            # time.sleep(1)
+        if globals.stop_threads:
+            break
         try:
             latest_coin = get_last_coin()
             if latest_coin:

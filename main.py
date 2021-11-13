@@ -419,7 +419,7 @@ def main():
             # else:
             #     logger.info( 'No coins announced, or coin has already been bought/sold. Checking more frequently in case TP and SL need updating')
 
-            time.sleep(2)
+            # time.sleep(1)
 
 
             # except Exception as e:
