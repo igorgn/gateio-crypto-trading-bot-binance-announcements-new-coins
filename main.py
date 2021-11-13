@@ -361,7 +361,7 @@ def main():
                                 order[announcement_coin]['_ttp'] = ttp
                                 order[announcement_coin]['_tsl'] = tsl
                                 logger.debug('Finished buy place_order')
-                                send_telegram('Finished buy place_order')
+                                send_telegram('Bought a new announcement coin!')
                                 
                         except Exception as e:
                             logger.error(e)
