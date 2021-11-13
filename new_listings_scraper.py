@@ -56,7 +56,7 @@ def get_last_coin():
      Returns new Symbol when appropriate
     """
     latest_announcement = get_announcement()
-
+    latest_announcement = 'Binance Will List MOVE (METIS)'
     found_coin = re.findall('\(([^)]+)', latest_announcement)
 
     # pull existing coin if file exists
@@ -117,7 +117,7 @@ def search_and_update():
             if latest_coin:
                 store_new_listing(latest_coin)
 
-            logger.info(f"Checking for coin announcements every {str(sleep_time)} seconds (in a separate thread)")
+            # logger.info(f"Checking for coin announcements every {str(sleep_time)} seconds (in a separate thread)")
         except Exception as e:
             logger.info(e)
     else:
