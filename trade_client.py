@@ -41,13 +41,14 @@ def get_min_amount(base,quote):
         return min_amount
 
 
-def place_order(base,quote, amount, side, last_price):
+def place_order(base,quote, amount, side, last_price, last_price_margin):
     """
     Args:
     'DOT', 'USDT', 50, 'buy', 400
     """
+    price_with_margin = str(float(last_price) + (float(last_price) * float(last_price_margin)) / 100) if side == 'buy' else str(float(last_price) - (float(last_price) * float(last_price_margin)) / 100)
     try:
-        order = Order(amount=str(float(amount)/float(last_price)), price=last_price, side=side, currency_pair=f'{base}_{quote}', time_in_force='ioc')
+        order = Order(amount=str(float(amount)/float(last_price)), price=price_with_margin, side=side, currency_pair=f'{base}_{quote}', time_in_force='ioc') #str(float(last_price) - (float(last_price) * float(last_price_margin)) / 100)
         order = spot_api.create_order(order)
         t = order
         logger.info(f"PLACE ORDER: {t.side} | {t.id} | {t.account} | {t.type} | {t.currency_pair} | {t.status} | amount={t.amount} | price={t.price} | left={t.left} | filled_total={t.filled_total} | fill_price={t.fill_price} | fee={t.fee} {t.fee_currency}")

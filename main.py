@@ -65,6 +65,7 @@ def main():
     ttp = config['TRADE_OPTIONS']['TTP']
     pairing = config['TRADE_OPTIONS']['PAIRING']
     test_mode = config['TRADE_OPTIONS']['TEST']
+    last_price_margin = config['TRADE_OPTIONS']['LAST_PRICE_MARGIN']
 
 
     globals.stop_threads = False
@@ -96,6 +97,7 @@ def main():
 
                     volume = order[coin]['_amount']
                     stored_price = float(order[coin]['_price'])
+                    stored_price = stored_price - ((stored_price * float(last_price_margin)) / 100)
                     symbol = order[coin]['_fee_currency']
 
                     # avoid div by zero error
@@ -154,7 +156,7 @@ def main():
 
                             # sell for real if test mode is set to false
                             if not test_mode:
-                                sell = place_order(symbol, pairing, float(sell_volume_adjusted)*float(last_price), 'sell', last_price)
+                                sell = place_order(symbol, pairing, float(sell_volume_adjusted)*float(last_price), 'sell', last_price, last_price_margin)
                                 logger.info("Finish sell place_order")
 
 
@@ -346,7 +348,7 @@ def main():
                                 # just in case...stop buying more than our config amount
                                 assert amount * float(price) <= float(volume)
 
-                                order[announcement_coin] = place_order(announcement_coin, pairing, volume,'buy', price)
+                                order[announcement_coin] = place_order(announcement_coin, pairing, volume,'buy', price, last_price_margin)
                                 order[announcement_coin] = order[announcement_coin].__dict__
                                 order[announcement_coin].pop("local_vars_configuration")
                                 order[announcement_coin]['_tp'] = tp
@@ -407,10 +409,10 @@ def main():
                                     'listed on gate io')
                 else:
                     logger.error('supported_currencies is not initialized')
-            else:
-                logger.info( 'No coins announced, or coin has already been bought/sold. Checking more frequently in case TP and SL need updating')
+            # else:
+            #     logger.info( 'No coins announced, or coin has already been bought/sold. Checking more frequently in case TP and SL need updating')
 
-            time.sleep(3)
+            time.sleep(2)
 
 
             # except Exception as e:

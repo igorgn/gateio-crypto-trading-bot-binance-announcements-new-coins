@@ -107,7 +107,7 @@ def search_and_update():
     Pretty much our main func
     """
     while not globals.stop_threads:
-        sleep_time = 3
+        sleep_time = 1
         for x in range(sleep_time):
             time.sleep(1)
             if globals.stop_threads:
